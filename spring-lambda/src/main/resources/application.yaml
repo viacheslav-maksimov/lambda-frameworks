@@ -1,0 +1,2 @@
+dynamodb:
+  tableName: "${TABLE_NAME:UserScore}"

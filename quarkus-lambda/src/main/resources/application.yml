@@ -1,0 +1,14 @@
+quarkus:
+  dynamodb:
+    sync-client:
+      type: apache
+    aws:
+      region: eu-central-1
+      credentials:
+        type: default
+  lambda:
+    handler: mytest
+
+dynamodb:
+  tableName: "${TABLE_NAME:UserScore}"
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd ${LAMBDA_TASK_ROOT:-.}
+
+./spring-lambda -Dlogging.level.org.springframework=INFO

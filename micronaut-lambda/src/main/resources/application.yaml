@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: micronaut-lambda
+
+dynamodb:
+  tableName: "${TABLE_NAME:UserScore}"

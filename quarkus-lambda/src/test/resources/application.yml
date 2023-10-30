@@ -1,0 +1,10 @@
+quarkus:
+  dynamodb:
+    sync-client:
+      type: apache
+    aws:
+      region: eu-west-1
+      credentials:
+        type: default
+  lambda:
+    handler: mytest

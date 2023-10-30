@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:experimental
+#
+# Docker multistage build provides the ability to use different image
+# and steps to build and release your docker image and content.
+#
+# On this example our Dockerfile.build is responsible to build the
+# lambda zip package and its required dependencies, and on a second
+# stage release (upload) the package to S3 bucket.
+#
+# Check for details: https://docs.docker.com/develop/develop-images/multistage-build/
+
+##
+# Build stage
+#  This docker stage will leverage docker build commands to generate the java jar file
+#  that will be pack into the S3 package when creating the lambda function
+FROM openjdk:17-slim AS build
+RUN useradd -u 1000 -ms /bin/bash builduser
+#RUN echo $(ls)
+COPY mvnw /mvnw
+COPY .mvn /.mvn
+COPY pom.xml /.
+
+# Download maven dependencies so they can be cached
+RUN ./mvnw -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline --batch-mode -T4
+
+# Copy sources
+COPY src /src
+# Package
+RUN ./mvnw package --batch-mode -T4 -DskipTests
+
+# Upload zip to s3
+FROM mesosphere/aws-cli AS upload
+# fetching the file from "zip" stage
+COPY --from=build /target/lambda-package.jar /target/lambda-package.jar
+ARG FUNC_NAME
+WORKDIR /target
+
+RUN --mount=type=secret,id=aws,target=/root/.aws/credentials aws s3 cp --acl bucket-owner-full-control "./lambda-package.jar" "s3://test.lambda-package/${FUNC_NAME}"
