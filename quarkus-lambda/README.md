@@ -62,16 +62,3 @@ This example contains a Quarkus Greeting Lambda ready for Amazon.
 [Related guide section...](https://quarkus.io/guides/amazon-lambda)
 
 > :warning: **INCOMPATIBLE WITH DEV MODE**: Amazon Lambda Binding is not compatible with dev mode yet!
-
-
-## My-readme. Native option
-> 1. make build 
-
-build and create function.zip
-> 2. make upload
-
-upload function.zip to s3
->3. terraform apply -var-file="qa.tfvars" -auto-approve
-
-create aws infra and deploy function.zip from s3 to lambda
-

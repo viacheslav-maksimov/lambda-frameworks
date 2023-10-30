@@ -3,7 +3,7 @@ target
 
 # IDE
 .idea
-.iml
+*.iml
 
 # Compiled class file
 *.class
@@ -34,3 +34,7 @@ hs_err_pid*
 
 # lambda
 response.json
+
+terraform.*
+.terraform
+.terraform.*
